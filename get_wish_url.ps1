@@ -57,9 +57,9 @@ if (-Not $logMatch) {
 
 $gameDataPath = ($logMatch | Select -Last 1) -match $regexPattern
 $gameDataPath = Resolve-Path $Matches[0]
-
+$version = "2.16.0.0"
 # Method 1
-$cachePath = "$gameDataPath\\webCaches\\2.15.0.0\\Cache\\Cache_Data\\data_2"
+$cachePath = "$gameDataPath\\webCaches\\$version\\Cache\\Cache_Data\\data_2"
 if (Test-Path $cachePath) {
     $tmpFile = "$env:TEMP/ch_data_2"
     Copy-Item $cachePath -Destination $tmpFile
@@ -77,7 +77,7 @@ if (Test-Path $cachePath) {
 }
 
 # Method 2 (Credits to PrimeCicada for finding this path)
-$cachePath = "$gameDataPath\\webCaches\\2.15.0.0\\Service Worker\\CacheStorage\\f944a42103e2b9f8d6ee266c44da97452cde8a7c"
+$cachePath = "$gameDataPath\\webCaches\\$version\\Service Worker\\CacheStorage\\f944a42103e2b9f8d6ee266c44da97452cde8a7c"
 if (Test-Path $cachePath) {
     Write-Host "Using Fallback Method (SW)" -ForegroundColor Yellow
     $cacheFolder = Get-ChildItem $cachePath | sort -Property LastWriteTime -Descending | select -First 1
@@ -96,7 +96,7 @@ if (Test-Path $cachePath) {
 
 # Method 3
 Write-Host "Using Fallback method (CCV)" -ForegroundColor Yellow
-$cachePath = "$gameDataPath\\webCaches\\2.15.0.0\\Cache\\Cache_Data"
+$cachePath = "$gameDataPath\\webCaches\\$version\\Cache\\Cache_Data"
 $tempPath = mkdir "$env:TEMP\\paimonmoe" -Force
 # downloads ChromeCacheView
 Invoke-WebRequest -Uri "https://www.nirsoft.net/utils/chromecacheview.zip" -OutFile "$tempPath\\chromecacheview.zip"
